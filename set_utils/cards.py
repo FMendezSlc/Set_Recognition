@@ -47,3 +47,5 @@ osuo = Card(shape = 'oval', filling = 'striped', color = 'blue', number = 'one',
 osur = Card(shape = 'rectangle', filling = 'striped', color = 'blue', number = 'one', picture = 'osur.png')
 
 deck_3 = deck_2 + [ofyd, ofyo, ofyr, oeyd, oeyo, oeyr, osyd, osyo, osyr, ofud, ofuo, ofur, oeud, oeuo, oeur, osud, osuo, osur]
+
+decks = [deck_1, deck_2, deck_3]
