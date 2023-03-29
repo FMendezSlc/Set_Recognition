@@ -47,13 +47,14 @@ for deck in cards.decks:
             msg_missed.draw()
             win.flip()
             core.wait(0.3)
+
         elif real_answer == user_answer:
-            msg_correct = visual.TextStim(win, text = 'Correct!!', pos = (0, 0), height = 1.5)
+            msg_correct = visual.TextStim(win, text = 'Correct!!', color = '#CCFF99', pos = (0, 0), height = 1.5)
             msg_correct.draw()
             win.flip()
             core.wait(0.3)
         else:  
-            msg_wrong = visual.TextStim(win, text = 'Wrong!!\n:(', pos = (0, 0), height = 1.5)
+            msg_wrong = visual.TextStim(win, text = 'Wrong!!\n:(', color = '#FF6666', pos = (0, 0), height = 1.5)
             msg_wrong.draw()
             win.flip()
             core.wait(0.4)
