@@ -1,5 +1,5 @@
 from psychopy import visual, core, event  # import some libraries from PsychoPy
-from random import sample, choices
+from random import choice
 from set_utils import cards, functions
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
@@ -8,13 +8,15 @@ path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 win = visual.Window([800,600], monitor="testMonitor", units="deg")
 
 for deck in cards.decks:
+
     rounds = 30
+    hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= rounds)
+
     for round in range(rounds):
-        if len(deck) == 3: # deal cards from deck
-            hand = choices(deck, k = 3)
-        else:
-            hand = sample(deck, k = 3) 
+
+        hand = choice(hands)
         real_answer = functions.is_a_set(hand)
+
         if real_answer:
             level = functions.set_level(hand)
         #create visual objects to present
@@ -22,7 +24,7 @@ for deck in cards.decks:
         card_1 = visual.ImageStim(win, image = path+hand[0].picture, size = 5, pos = (-7, 0))
         card_2 = visual.ImageStim(win, image = path+hand[1].picture, size = 5, pos = (0, 0))
         card_3 = visual.ImageStim(win, image = path+hand[2].picture, size = 5, pos = (7, 0))
-        msg_2 = visual.TextStim(win, text = 'Tap on the spacebar if this is a Set.\nPress Shift if it\'s not a set.', pos = (0, -5), height= 0.7)
+        msg_2 = visual.TextStim(win, text = 'Tap on the spacebar if this is a Set.\nPress Shift if it\'s not.', pos = (0, -5), height= 0.7)
 
         #draw the stimuli and update the window
         msg_1.draw()
