@@ -4,12 +4,19 @@ from set_utils import cards, functions
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 
- #create a window
+#create a window
 win = visual.Window([800,600], monitor="testMonitor", units="deg")
+
+# welcome and instructions
+functions.welcome(win)
+#instructions
+functions.instructions(win)
+#Examples
+functions.examples(win, path)
 
 for deck in cards.decks:
 
-    rounds = 30
+    rounds = 3
     hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= rounds)
 
     for round in range(rounds):
@@ -36,28 +43,27 @@ for deck in cards.decks:
 
         trial_clock = core.Clock() # start the clock
         responses = event.waitKeys(10, timeStamped = trial_clock, keyList = ['space', 'rshift', 'lshift']) # wait for the response and record it
-        
-        if responses[0][0] == 'space' :
-            user_answer = True
-        else:
-            user_answer = False
-
         if responses == None:
             msg_missed = visual.TextStim(win, text = 'You missed the trial!!', pos = (0, 0), height = 1.5)
             msg_missed.draw()
             win.flip()
             core.wait(0.3)
+        else:
+            if responses[0][0] == 'space' :
+                user_answer = True
+            else:
+                user_answer = False
 
-        elif real_answer == user_answer:
-            msg_correct = visual.TextStim(win, text = 'Correct!!', color = '#CCFF99', pos = (0, 0), height = 1.5)
-            msg_correct.draw()
-            win.flip()
-            core.wait(0.3)
-        else:  
-            msg_wrong = visual.TextStim(win, text = 'Wrong!!\n:(', color = '#FF6666', pos = (0, 0), height = 1.5)
-            msg_wrong.draw()
-            win.flip()
-            core.wait(0.4)
-        print(user_answer)
+            if real_answer == user_answer:
+                msg_correct = visual.TextStim(win, text = 'Correct!!', color = '#CCFF99', pos = (0, 0), height = 1.5)
+                msg_correct.draw()
+                win.flip()
+                core.wait(0.3)
+            else:  
+                msg_wrong = visual.TextStim(win, text = 'Wrong!!\n:(', color = '#FF6666', pos = (0, 0), height = 1.5)
+                msg_wrong.draw()
+                win.flip()
+                core.wait(0.4)
+            print(user_answer)
 
 
