@@ -1,4 +1,63 @@
 from random import sample, choices
+from psychopy import visual, core, event
+
+def welcome(win):
+    '''Display a welcome message.'''
+    msg_0 = visual.TextStim(win, text = 'Welcome to the Set Recognition Task', pos = (0, 5))
+    msg_instructions_0 = visual.TextStim(win, text = 'Each round, you will be presented with 3 cards and you must decide if they are a Set or not.', pos = (0, 0), height = 0.9)
+    msg_0.draw()
+    msg_instructions_0.draw()
+    win.flip()
+    core.wait(7)
+
+def instructions(win):
+    '''Display instructions'''
+    msg_0 = visual.TextStim(win, text = 'Each card has a shape of an specific color and filling.', pos = (0, 5))
+    msg_instructions_0 = visual.TextStim(win, text = 'A Set if defined by a single rule: Each feature (i.e. shape, color and filling) must be identical or completly different in all cards.', pos = (0, 0), height = 0.9)
+    msg_0.draw()
+    msg_instructions_0.draw()
+    win.flip()
+    core.wait(10)
+
+def examples(win, path):
+    '''Display some examples of sets and not set.'''
+    #Example 1
+    card_1 = visual.ImageStim(win, image = path+'ofbo.png', size = 5, pos = (-7, 0))
+    card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
+    card_3 = visual.ImageStim(win, image = path+'ofbd.png', size = 5, pos = (7, 0))
+    msg_instructions_0 = visual.TextStim(win, text = 'This is a Set', pos = (0, -5), height = 0.8)
+    card_1.draw()
+    card_2.draw()
+    card_3.draw()
+    msg_instructions_0.draw()
+    win.flip()
+    core.wait(7)
+    #Example 2
+    card_1 = visual.ImageStim(win, image = path+'osuo.png', size = 5, pos = (-7, 0))
+    card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
+    card_3 = visual.ImageStim(win, image = path+'oeyd.png', size = 5, pos = (7, 0))
+    msg_instructions_0 = visual.TextStim(win, text = 'This is also a Set', pos = (0, -5), height = 0.8)
+    card_1.draw()
+    card_2.draw()
+    card_3.draw()
+    msg_instructions_0.draw()
+    win.flip()
+    core.wait(7)
+    #Example 3
+    card_1 = visual.ImageStim(win, image = path+'ofbo.png', size = 5, pos = (-7, 0))
+    card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
+    card_3 = visual.ImageStim(win, image = path+'oeyd.png', size = 5, pos = (7, 0))
+    msg_instructions_0 = visual.TextStim(win, text = 'This is Not a Set', pos = (0, -5), height = 0.8)
+    card_1.draw()
+    card_2.draw()
+    card_3.draw()
+    msg_instructions_0.draw()
+    win.flip()
+    core.wait(7)
+    msg_0 = visual.TextStim(win, text = 'Ready??\n\n\nGo!', pos = (0, 0))
+    msg_0.draw()
+    win.flip()
+    core.wait(3)
 
 def is_a_set(hand):
     '''Evaluate the attributes of the cards in the given hand (i.e. shape, color, filling and number) and determine if they are a set.'''
