@@ -8,7 +8,7 @@ def welcome(win):
     msg_0.draw()
     msg_instructions_0.draw()
     win.flip()
-    core.wait(7)
+    event.waitKeys(10)
 
 def instructions(win):
     '''Display instructions'''
@@ -17,7 +17,7 @@ def instructions(win):
     msg_0.draw()
     msg_instructions_0.draw()
     win.flip()
-    core.wait(10)
+    event.waitKeys(10)
 
 def examples(win, path):
     '''Display some examples of sets and not set.'''
@@ -31,7 +31,7 @@ def examples(win, path):
     card_3.draw()
     msg_instructions_0.draw()
     win.flip()
-    core.wait(7)
+    event.waitKeys(10)
     #Example 2
     card_1 = visual.ImageStim(win, image = path+'osuo.png', size = 5, pos = (-7, 0))
     card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
@@ -42,7 +42,7 @@ def examples(win, path):
     card_3.draw()
     msg_instructions_0.draw()
     win.flip()
-    core.wait(7)
+    event.waitKeys(10)
     #Example 3
     card_1 = visual.ImageStim(win, image = path+'ofbo.png', size = 5, pos = (-7, 0))
     card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
