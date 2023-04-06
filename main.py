@@ -1,6 +1,6 @@
-from psychopy import visual, core, event  # import some libraries from PsychoPy
+from psychopy import visual, core, event, data  # import some libraries from PsychoPy
 from random import choice
-from set_utils import cards, functions
+from set_utils import cards, functions # my own files
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 
@@ -14,24 +14,32 @@ functions.instructions(win)
 #Examples
 functions.examples(win, path)
 
+conditions = {'nTrails': 3, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
+
 for deck in cards.decks:
 
-    rounds = 3
-    hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= rounds)
+    hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= conditions['nTrails'])
+    trialHandler = data.TrialHandler(trialList = [], nReps= conditions['nTrails'], dataTypes= ['correctResp', 'setLevel', 'userResp', 'RT']) # object to control trial config and data storage
 
-    for round in range(rounds):
-
+    for trial in trialHandler:
+        
         hand = choice(hands)
-        real_answer = functions.is_a_set(hand)
+        real_answer = functions.is_a_set(hand) # evaluate the hand 
+        trialHandler.addData('correctResp', real_answer)
 
         if real_answer:
-            level = functions.set_level(hand)
+            level = functions.set_level(hand) # determine the level of the set if it's a set
+            print(level)
+            trialHandler.addData('setLevel', level)
+
         #create visual objects to present
         msg_1 = visual.TextStim(win, text = 'Is this a Set?', pos = (0, 5))
         card_1 = visual.ImageStim(win, image = path+hand[0].picture, size = 5, pos = (-7, 0))
         card_2 = visual.ImageStim(win, image = path+hand[1].picture, size = 5, pos = (0, 0))
         card_3 = visual.ImageStim(win, image = path+hand[2].picture, size = 5, pos = (7, 0))
         msg_2 = visual.TextStim(win, text = 'Tap on the spacebar if this is a Set.\nPress Shift if it\'s not.', pos = (0, -5), height= 0.7)
+
+        # --> inter-trial interval goes here if necessary <--
 
         #draw the stimuli and update the window
         msg_1.draw()
@@ -41,9 +49,12 @@ for deck in cards.decks:
         msg_2.draw()
         win.flip()
 
-        trial_clock = core.Clock() # start the clock
-        responses = event.waitKeys(10, timeStamped = trial_clock, keyList = ['space', 'rshift', 'lshift']) # wait for the response and record it
+        response_clock = core.Clock() # start the clock
+
+        # --> holding time can be modified here <--
+        responses = event.waitKeys(10, timeStamped = response_clock, keyList = ['space', 'rshift', 'lshift']) # wait for the response and record it
         if responses == None:
+            trialHandler.addData('userResp', 'Missed')
             msg_missed = visual.TextStim(win, text = 'You missed the trial!!', pos = (0, 0), height = 1.5)
             msg_missed.draw()
             win.flip()
@@ -53,6 +64,9 @@ for deck in cards.decks:
                 user_answer = True
             else:
                 user_answer = False
+
+            trialHandler.addData('userResp', user_answer)
+            trialHandler.addData('RT', responses[0][1])
 
             if real_answer == user_answer:
                 msg_correct = visual.TextStim(win, text = 'Correct!!', color = '#CCFF99', pos = (0, 0), height = 1.5)
@@ -66,4 +80,4 @@ for deck in cards.decks:
                 core.wait(0.4)
             print(user_answer)
 
-
+trialHandler.printAsText(dataOut = 'all_raw')

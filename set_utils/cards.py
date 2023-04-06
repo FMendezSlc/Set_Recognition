@@ -24,7 +24,7 @@ osbr = Card(shape = 'rectangle', filling = 'striped', color = 'black', number = 
 
 deck_2 = deck_1 + [oebd, oebo, oebr, osbd, osbo, osbr]
 
-#yellow cards
+#yellow cards, stripped, empty and filled
 ofyd = Card(shape = 'diamond', filling = 'solid', color = 'yellow', number = 'one', picture = 'ofyd.png')
 ofyo = Card(shape = 'oval', filling = 'solid', color = 'yellow', number = 'one', picture = 'ofyo.png')
 ofyr = Card(shape = 'rectangle', filling = 'solid', color = 'yellow', number = 'one', picture = 'ofyr.png')
@@ -35,7 +35,7 @@ osyd = Card(shape = 'diamond', filling = 'striped', color = 'yellow', number = '
 osyo = Card(shape = 'oval', filling = 'striped', color = 'yellow', number = 'one', picture = 'osyo.png')
 osyr = Card(shape = 'rectangle', filling = 'striped', color = 'yellow', number = 'one', picture = 'osyr.png')
 
-#blue cards
+#blue cards, stripped, empty and filled
 ofud = Card(shape = 'diamond', filling = 'solid', color = 'blue', number = 'one', picture = 'ofud.png')
 ofuo = Card(shape = 'oval', filling = 'solid', color = 'blue', number = 'one', picture = 'ofuo.png')
 ofur = Card(shape = 'rectangle', filling = 'solid', color = 'blue', number = 'one', picture = 'ofur.png')

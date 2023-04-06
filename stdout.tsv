@@ -1,0 +1,6 @@
+﻿RT_raw			correctResp_raw			setLevel_raw			userResp_raw			order		
+1.4246370792388916	 1.3916065692901611	 2.2323379516601562	True	 True	 True	1.0	 1.0	 1.0	True	 True	 True	0.0	 1.0	 2.0
+﻿RT_raw			correctResp_raw			setLevel_raw			userResp_raw			order		
+2.7341158390045166	 2.677985668182373	 	False	 True	 True		 1.0	 1.0	False	 True	 'Missed'	0.0	 1.0	 2.0
+﻿RT_raw			correctResp_raw			setLevel_raw			userResp_raw			order		
+9.10640811920166	 	 	True	 False	 True	1.0	 	 1.0	False	 'Missed'	 'Missed'	0.0	 1.0	 2.0
