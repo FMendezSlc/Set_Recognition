@@ -81,11 +81,11 @@ def set_level(hand):
 
     if len(set([card.shape for card in hand])) == 3:
         level += 1
-    elif len(set([card.filling for card in hand])) == 3:
+    if len(set([card.filling for card in hand])) == 3:
         level += 1
-    elif len(set([card.color for card in hand])) == 3:
+    if len(set([card.color for card in hand])) == 3:
         level += 1
-    elif len(set([card.number for card in hand])) == 3:
+    if len(set([card.number for card in hand])) == 3:
         level += 1
 
     return level
