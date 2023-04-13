@@ -1,11 +1,26 @@
-from psychopy import visual, core, event, data  # import some libraries from PsychoPy
+from psychopy import visual, core, event, data, gui  # import some libraries from PsychoPy
 from random import choice
 from set_utils import cards, functions # my own files
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 
+exp_info = {'subjectID':'test_sub',
+            'age':23, 
+            'date': data.getDateStr(),
+            'experiment_type': 'Standard'}
+
+filename = f"{exp_info['subjectID']}_{exp_info['date']}"
+
+current_exp = data.ExperimentHandler(
+        name='Set_Recognition', version='h.0.1', #not needed, just handy
+        extraInfo = exp_info, #the info we created earlier
+        dataFileName = filename, # using our string with data/name_date
+        )
+
 #create a window
 win = visual.Window([800,600], monitor="testMonitor", units="deg")
+
+dlg = gui.DlgFromDict(exp_info, title='Rgistration', fixed=['experiment_type', 'date'])
 
 # welcome and instructions
 functions.welcome(win)
@@ -14,17 +29,22 @@ functions.instructions(win)
 #Examples
 functions.examples(win, path)
 
-conditions = {'nTrails': 3, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
+conditions = {'nTrails': 5, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
+block = 0
 
 for deck in cards.decks:
 
     hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= conditions['nTrails'])
-    trialHandler = data.TrialHandler(trialList = [], nReps= conditions['nTrails'], dataTypes= ['correctResp', 'setLevel', 'userResp', 'RT']) # object to control trial config and data storage
+    block += 1
+    trialHandler = data.TrialHandler(trialList = [], nReps= conditions['nTrails'], dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
+
+    current_exp.addLoop(trialHandler)
 
     for trial in trialHandler:
         
+        trialHandler.addData('block', block) # log block number (block refers to the number of dimensions)
         hand = choice(hands)
-        real_answer = functions.is_a_set(hand) # evaluate the hand 
+        real_answer = functions.is_a_set(hand) # evaluate the hand, is it a set?
         trialHandler.addData('correctResp', real_answer)
 
         if real_answer:
@@ -80,4 +100,6 @@ for deck in cards.decks:
                 core.wait(0.4)
             print(user_answer)
 
-trialHandler.printAsText(dataOut = 'all_raw')
+        current_exp.nextEntry()
+
+current_exp.close()
