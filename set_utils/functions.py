@@ -1,10 +1,11 @@
-from random import sample, choices
+from random import sample, choices, shuffle
 from psychopy import visual, core, event
 
 def welcome(win):
     '''Display a welcome message.'''
     msg_0 = visual.TextStim(win, text = 'Welcome to the Set Recognition Task', pos = (0, 5))
-    msg_instructions_0 = visual.TextStim(win, text = 'Each round, you will be presented with 3 cards and you must decide if they are a Set or not.', pos = (0, 0), height = 0.9)
+    msg_instructions_0 = visual.TextStim(win, text = 'Each round, you will be presented with 3 cards and you must decide if they are a Set or not.', 
+                                         pos = (0, 0), height = 0.9)
     msg_0.draw()
     msg_instructions_0.draw()
     win.flip()
@@ -13,7 +14,8 @@ def welcome(win):
 def instructions(win):
     '''Display instructions'''
     msg_0 = visual.TextStim(win, text = 'Each card has a shape of an specific color and filling.', pos = (0, 5))
-    msg_instructions_0 = visual.TextStim(win, text = 'A Set if defined by a single rule: Each feature (i.e. shape, color and filling) must be identical or completly different in all cards.', pos = (0, 0), height = 0.9)
+    msg_instructions_0 = visual.TextStim(win, text = 'A Set if defined by a single rule:\nEach feature (i.e. shape, color and filling) must be identical or completly different in all cards.', 
+                                         pos = (0, 0), height = 0.9)
     msg_0.draw()
     msg_instructions_0.draw()
     win.flip()
@@ -22,10 +24,12 @@ def instructions(win):
 def examples(win, path):
     '''Display some examples of sets and not set.'''
     #Example 1
+    msg_0 = visual.TextStim(win, text = 'Example', pos = (0, 5))
     card_1 = visual.ImageStim(win, image = path+'ofbo.png', size = 5, pos = (-7, 0))
     card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
     card_3 = visual.ImageStim(win, image = path+'ofbd.png', size = 5, pos = (7, 0))
     msg_instructions_0 = visual.TextStim(win, text = 'This is a Set', pos = (0, -5), height = 0.8)
+    msg_0.draw()
     card_1.draw()
     card_2.draw()
     card_3.draw()
@@ -37,6 +41,7 @@ def examples(win, path):
     card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
     card_3 = visual.ImageStim(win, image = path+'oeyd.png', size = 5, pos = (7, 0))
     msg_instructions_0 = visual.TextStim(win, text = 'This is also a Set', pos = (0, -5), height = 0.8)
+    msg_0.draw()
     card_1.draw()
     card_2.draw()
     card_3.draw()
@@ -48,19 +53,22 @@ def examples(win, path):
     card_2 = visual.ImageStim(win, image = path+'ofbr.png', size = 5, pos = (0, 0))
     card_3 = visual.ImageStim(win, image = path+'oeyd.png', size = 5, pos = (7, 0))
     msg_instructions_0 = visual.TextStim(win, text = 'This is Not a Set', pos = (0, -5), height = 0.8)
+    msg_0.draw()
     card_1.draw()
     card_2.draw()
     card_3.draw()
     msg_instructions_0.draw()
     win.flip()
     core.wait(7)
-    msg_0 = visual.TextStim(win, text = 'Ready??\n\n\nGo!', pos = (0, 0))
+    msg_0 = visual.TextStim(win, text = 'Ready??\n\n\nTap on the spacebar if this is a Set.\nPress Shift if it\'s not.', 
+                            pos = (0, 0))
     msg_0.draw()
     win.flip()
     core.wait(3)
 
 def is_a_set(hand):
-    '''Evaluate the attributes of the cards in the given hand (i.e. shape, color, filling and number) and determine if they are a set.'''
+    '''Evaluate the attributes of the cards in the given hand (i.e. shape, color, filling and number)
+      and determine if they are a set.'''
     
     if len(set([card.shape for card in hand])) == 2:
         return False
@@ -75,7 +83,8 @@ def is_a_set(hand):
 
 
 def set_level(hand):
-    '''Determine the level of the set at hand. The level of a set is determined by the number of dimensions of disimilarity.'''
+    '''Determine the level of the set at hand. The level of a set is determined
+      by the number of dimensions of disimilarity.'''
 
     level = 0
 
@@ -90,10 +99,10 @@ def set_level(hand):
 
     return level
 
-def prepare_rounds(deck, propSets = 0.5, rounds = 30):
+def prepare_rounds(deck, prop_sets = 0.5, rounds = 30):
     '''Define the hands to be dealt in the current block with a predifined proportion of sets present (propSets), defaults to 0.5.'''
 
-    num_of_sets = round(rounds * propSets)
+    num_of_sets = round(rounds * prop_sets)
     set_count = 0
     not_sets = 0
     hands = []
@@ -122,5 +131,6 @@ def prepare_rounds(deck, propSets = 0.5, rounds = 30):
                 if not_sets < (rounds-num_of_sets):
                     not_sets +=1
                     hands.append(hand)
+    shuffle(hands)
     return hands
 
