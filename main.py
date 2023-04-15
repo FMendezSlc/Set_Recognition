@@ -12,12 +12,13 @@ exp_info = {'subjectID':'test_sub',
 #create a window
 win = visual.Window([800,600], monitor="testMonitor", units="deg")
 
-dlg = gui.DlgFromDict(exp_info, title='Rgistration', fixed=['experiment_type', 'date'])
+dlg = gui.DlgFromDict(exp_info, title='Rgistration', fixed=['date']) # dialog window to collect exp info
 
 filename = f"{exp_info['subjectID']}_{exp_info['date']}"
 
 current_exp = data.ExperimentHandler(
-        name='Set_Recognition', version='h.0.1', #not needed, just handy
+        name='Set_Recognition', 
+        version='h.0.1', #not needed, just handy
         extraInfo = exp_info, #the info we created earlier
         dataFileName = filename, # using our string with data/name_date
         )
@@ -36,7 +37,7 @@ for deck in cards.decks:
 
     hands = functions.prepare_rounds(deck, prop_sets= 0.5, rounds= conditions['n_trails'])
     block += 1
-    trialHandler = data.TrialHandler(trialList = [{'hand': hand} for hand in hands], nReps= 1, dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
+    trialHandler = data.TrialHandler(trialList = [{'hand': hand} for hand in hands], nReps= 1, dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'evaluation', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
 
     current_exp.addLoop(trialHandler)
 
@@ -79,6 +80,7 @@ for deck in cards.decks:
             msg_missed = visual.TextStim(win, text = 'You missed the trial!!', pos = (0, 0), height = 1.5)
             msg_missed.draw()
             win.flip()
+            trialHandler.addData('evaluation', 'omission')
             core.wait(0.3)
         else:
             if responses[0][0] == 'space' :
@@ -93,11 +95,13 @@ for deck in cards.decks:
                 msg_correct = visual.TextStim(win, text = 'Correct!!', color = '#CCFF99', pos = (0, 0), height = 1.5)
                 msg_correct.draw()
                 win.flip()
+                trialHandler.addData('evaluation', 'correct')
                 core.wait(0.3)
             else:  
                 msg_wrong = visual.TextStim(win, text = 'Wrong!!\n:(', color = '#FF6666', pos = (0, 0), height = 1.5)
                 msg_wrong.draw()
                 win.flip()
+                trialHandler.addData('evaluation', 'incorrect')
                 core.wait(0.4)
             #print(user_answer)
 
