@@ -9,6 +9,11 @@ exp_info = {'subjectID':'test_sub',
             'date': data.getDateStr(),
             'experiment_type': 'Standard'}
 
+#create a window
+win = visual.Window([800,600], monitor="testMonitor", units="deg")
+
+dlg = gui.DlgFromDict(exp_info, title='Rgistration', fixed=['experiment_type', 'date'])
+
 filename = f"{exp_info['subjectID']}_{exp_info['date']}"
 
 current_exp = data.ExperimentHandler(
@@ -17,11 +22,6 @@ current_exp = data.ExperimentHandler(
         dataFileName = filename, # using our string with data/name_date
         )
 
-#create a window
-win = visual.Window([800,600], monitor="testMonitor", units="deg")
-
-dlg = gui.DlgFromDict(exp_info, title='Rgistration', fixed=['experiment_type', 'date'])
-
 # welcome and instructions
 functions.welcome(win)
 #instructions
@@ -29,27 +29,27 @@ functions.instructions(win)
 #Examples
 functions.examples(win, path)
 
-conditions = {'nTrails': 5, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
+conditions = {'n_trails': 50, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
 block = 0
 
 for deck in cards.decks:
 
-    hands = functions.prepare_rounds(deck, propSets= 0.5, rounds= conditions['nTrails'])
+    hands = functions.prepare_rounds(deck, prop_sets= 0.5, rounds= conditions['n_trails'])
     block += 1
-    trialHandler = data.TrialHandler(trialList = [], nReps= conditions['nTrails'], dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
+    trialHandler = data.TrialHandler(trialList = [{'hand': hand} for hand in hands], nReps= 1, dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
 
     current_exp.addLoop(trialHandler)
 
     for trial in trialHandler:
         
         trialHandler.addData('block', block) # log block number (block refers to the number of dimensions)
-        hand = choice(hands)
+        hand = trial['hand']
         real_answer = functions.is_a_set(hand) # evaluate the hand, is it a set?
         trialHandler.addData('correctResp', real_answer)
 
         if real_answer:
             level = functions.set_level(hand) # determine the level of the set if it's a set
-            print(level)
+            #print(level)
             trialHandler.addData('setLevel', level)
 
         #create visual objects to present
@@ -57,7 +57,8 @@ for deck in cards.decks:
         card_1 = visual.ImageStim(win, image = path+hand[0].picture, size = 5, pos = (-7, 0))
         card_2 = visual.ImageStim(win, image = path+hand[1].picture, size = 5, pos = (0, 0))
         card_3 = visual.ImageStim(win, image = path+hand[2].picture, size = 5, pos = (7, 0))
-        msg_2 = visual.TextStim(win, text = 'Tap on the spacebar if this is a Set.\nPress Shift if it\'s not.', pos = (0, -5), height= 0.7)
+        msg_2 = visual.TextStim(win, text = 'Tap on the spacebar if this is a Set.\nPress Shift if it\'s not.', 
+                                pos = (0, -5), height= 0.7)
 
         # --> inter-trial interval goes here if necessary <--
 
@@ -98,7 +99,7 @@ for deck in cards.decks:
                 msg_wrong.draw()
                 win.flip()
                 core.wait(0.4)
-            print(user_answer)
+            #print(user_answer)
 
         current_exp.nextEntry()
 
