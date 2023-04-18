@@ -99,38 +99,79 @@ def set_level(hand):
 
     return level
 
-def prepare_rounds(deck, prop_sets = 0.5, rounds = 30):
-    '''Define the hands to be dealt in the current block with a predifined proportion of sets present (propSets), defaults to 0.5.'''
+def prepare_rounds(deck, prop_sets = 0.5, rounds = 30, method = 'Standard'):
+    '''Define the hands to be dealt in the current block with a predifined proportion of sets present (propSets), defaults to 0.5 (or 50%), rounds is the number of trials to prepare, defaults to 30, method determines the type of presentation of sets: Standard (default) presents any kind of set for a given deck in a randomly, Polarised present only level 0 (all identical cards) in the first half of trials or maximum level (maximizes dissimilarity) for each kind of deck for last half of trials.'''
 
     num_of_sets = round(rounds * prop_sets)
     set_count = 0
     not_sets = 0
     hands = []
-    while len(hands) < rounds:
-        if len(deck) == 3: # deal cards from deck_1
+
+    if method == 'Standard':
+        while len(hands) < rounds:
+            if len(deck) == 3: # deal cards from deck_1
+                hand = choices(deck, k = 3)
+
+                if is_a_set(hand):
+                    if set_count < num_of_sets:
+                        set_count +=1
+                        hands.append(hand)
+
+                else:
+                    if not_sets < (rounds-num_of_sets):
+                        not_sets +=1
+                        hands.append(hand)
+            else:
+                hand = sample(deck, k = 3)
+                
+                if is_a_set(hand):
+                    if set_count < num_of_sets:
+                        set_count +=1
+                        hands.append(hand)
+
+                else:
+                    if not_sets < (rounds-num_of_sets):
+                        not_sets +=1
+                        hands.append(hand)
+        shuffle(hands)
+
+    elif method == 'Polarised':
+        while len(hands) < round(rounds/2):
+
             hand = choices(deck, k = 3)
 
             if is_a_set(hand):
-                if set_count < num_of_sets:
-                    set_count +=1
-                    hands.append(hand)
+                if set_level(hand) == 0:
+                    if set_count < num_of_sets:
+                        set_count +=1
+                        hands.append(hand)
 
             else:
                 if not_sets < (rounds-num_of_sets):
                     not_sets +=1
                     hands.append(hand)
-        else:
-            hand = sample(deck, k = 3)
+
+        while len(hands) < rounds:
+
+            hand = choices(deck, k = 3)
             
             if is_a_set(hand):
-                if set_count < num_of_sets:
-                    set_count +=1
-                    hands.append(hand)
+                if len(deck) == 3:
+                    span_level = 1
+                elif len(deck) == 9:
+                    span_level = 2
+                elif len(deck) == 27:
+                    span_level = 3
+
+                if set_level(hand) == span_level:
+                    if set_count < num_of_sets:
+                        set_count +=1
+                        hands.append(hand)
 
             else:
                 if not_sets < (rounds-num_of_sets):
                     not_sets +=1
                     hands.append(hand)
-    shuffle(hands)
+
     return hands
 
