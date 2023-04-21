@@ -40,7 +40,8 @@ block = 0
 
 for deck in cards.decks:
 
-    hands = functions.prepare_rounds(deck, prop_sets= 0.5, rounds= exp_conditions['n_trials'])
+    hands = functions.prepare_rounds(deck, prop_sets= 0.5, rounds= exp_conditions['n_trials'], 
+                                     method = exp_info['experiment_type'])
     block += 1
     trialHandler = data.TrialHandler(trialList = [{'hand': hand} for hand in hands], nReps= 1, dataTypes= ['block', 'correctResp', 'setLevel', 'userResp', 'evaluation', 'RT'], extraInfo=exp_info) # object to control trial config and data storage
 
