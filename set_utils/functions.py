@@ -147,7 +147,7 @@ def prepare_rounds(deck, prop_sets = 0.5, rounds = 30, method = 'Standard'):
                         hands.append(hand)
 
             else:
-                if not_sets < (rounds-num_of_sets):
+                if not_sets < (rounds-num_of_sets)/2:
                     not_sets +=1
                     hands.append(hand)
 
@@ -163,7 +163,7 @@ def prepare_rounds(deck, prop_sets = 0.5, rounds = 30, method = 'Standard'):
                 elif len(deck) == 27:
                     span_level = 3
 
-                if set_level(hand) == span_level:
+                if set_level(hand) == span_level or set_level(hand) == 0:
                     if set_count < num_of_sets:
                         set_count +=1
                         hands.append(hand)
