@@ -18,7 +18,7 @@ filename = f"{exp_info['subjectID']}_{exp_info['date']}"
 
 current_exp = data.ExperimentHandler(
         name='Set_Recognition', 
-        version='h.0.1', #not needed, just handy
+        version='h.0.2', #not needed, just handy
         extraInfo = exp_info, #the info we created earlier
         dataFileName = filename, # using our string with data/name_date
         )
@@ -31,7 +31,7 @@ functions.instructions(win)
 functions.examples(win, path)
 
 conditions = {'Standard' : {'n_trials': 50, 'iti': 0.0, 'holding': 10, 'timeOut': 5},
-              'Polarised' :{'n_trials': 60, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
+              'Polarised' :{'n_trials': 20, 'iti': 0.0, 'holding': 10, 'timeOut': 5}
               }
 
 exp_conditions = conditions[exp_info['experiment_type']]
