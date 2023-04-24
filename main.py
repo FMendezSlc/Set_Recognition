@@ -1,6 +1,4 @@
 from psychopy import visual, core, event, data, gui  # import some libraries from PsychoPy
-from random import choice
-from set_utils import cards, functions # my own files
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 
