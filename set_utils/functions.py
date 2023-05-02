@@ -15,7 +15,7 @@ def instructions(win):
     '''Display instructions'''
     msg_0 = visual.TextStim(win, text = 'Each card has a shape of an specific color and filling.', pos = (0, 5))
     msg_instructions_0 = visual.TextStim(win, text = 'A Set if defined by a single rule:\nEach feature (i.e. shape, color and filling) must be identical or completly different in all cards.', 
-                                         pos = (0, 0), height = 0.9)
+                                         pos = (0, 0), height = 0.8)
     msg_0.draw()
     msg_instructions_0.draw()
     win.flip()
@@ -60,7 +60,7 @@ def examples(win, path):
     msg_instructions_0.draw()
     win.flip()
     core.wait(7)
-    msg_0 = visual.TextStim(win, text = 'Ready??\n\n\nTap on the spacebar if this is a Set.\nPress Shift if it\'s not.', 
+    msg_0 = visual.TextStim(win, text = 'Ready??\n\n\nTap on the spacebar if you see a Set.\nPress Shift if it\'s not a set.', 
                             pos = (0, 0))
     msg_0.draw()
     win.flip()

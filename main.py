@@ -5,8 +5,8 @@ from set_utils import cards
 
 path =  '/Users/labc02/Documents/GitHub/Set_Recognition/pics/'
 
-exp_info = {'subjectID':'test_sub',
-            'age':23, 
+exp_info = {'subjectID':'sub',
+            'age':, 
             'date': data.getDateStr(),
             'experiment_type': 'Standard'}
 
